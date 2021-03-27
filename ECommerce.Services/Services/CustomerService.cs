@@ -10,8 +10,8 @@ namespace ECommerce.Services.Services
 {
     public interface ICustomerService
     {
-        Task<string> CustomerDetails(CustomerDetails customerDetails);
-        Task<string> CreateorderDetails(OrderDetails orderDetails);
+        Task<string> CustomerDetails(List<CustomerDetails> customerDetails);
+        Task<string> CreateorderDetails(List<OrderDetails> orderDetails);
         Task<List<OrderDetail>> GetOrderDeatails(string customerEmail);
     }
     public class CustomerService : ICustomerService
@@ -23,50 +23,63 @@ namespace ECommerce.Services.Services
             _customerRepository = customerRepository;
         }
 
-        public async Task<string> CreateorderDetails(OrderDetails orderDetails)
+        public async Task<string> CreateorderDetails(List<OrderDetails> orderDetails)
         {
-            Guid orderId = Guid.NewGuid();
-            var customerData = BuildOrdersData(orderDetails, orderId);
+            var customerData = BuildOrdersData(orderDetails);
             string sucess = await _customerRepository.CreateOrdersData(customerData);
             return sucess;
         }
 
-        public async Task<string> CustomerDetails(CustomerDetails customerDetails)
+        public async Task<string> CustomerDetails(List<CustomerDetails> customerDetails)
         {
-            Guid customerId = Guid.NewGuid();
-            var customerData = BuildCustomerData(customerDetails, customerId);
-            string sucess= await _customerRepository.CreateCustomersData(customerData);
+            var customerData = BuildCustomerData(customerDetails);
+            string sucess = await _customerRepository.CreateCustomersData(customerData);
             return sucess;
         }
         public async Task<List<OrderDetail>> GetOrderDeatails(string customerEmail)
         {
             return await _customerRepository.GetOrderDeatails(customerEmail);
         }
-        private CustomerDetail BuildCustomerData(CustomerDetails customerDetails, Guid customerId)
+        private List<CustomerDetail> BuildCustomerData(List<CustomerDetails> customerDetails)
         {
-            CustomerDetail customerDetail = new CustomerDetail();
+            List<CustomerDetail> customerDetail = new List<CustomerDetail>();
+            foreach (var details in customerDetails)
+            {
 
-            customerDetail.CustomerId = Guid.NewGuid().ToString();
-            customerDetail.CustomerEmail = customerDetails.CustomerEmail;
-            customerDetail.CustomerName = customerDetails.CustomerName;
-            customerDetail.Address = customerDetails.Address;
-            customerDetail.PhoneNumber = customerDetails.PhoneNumber;
-            customerDetail.AlternatePhoneNumber = customerDetails.AlternatePhoneNumber;
-            customerDetail.RegestationDate = DateTime.Now;
+                CustomerDetail customerDetail1 = new CustomerDetail()
+                {
+
+                    CustomerId = Guid.NewGuid().ToString(),
+                    CustomerEmail = details.CustomerEmail,
+                    CustomerName = details.CustomerName,
+                    Address = details.Address,
+                    PhoneNumber = details.PhoneNumber,
+                    AlternatePhoneNumber = details.AlternatePhoneNumber,
+                    RegestationDate = DateTime.Now,
+                };
+                customerDetail.Add(customerDetail1);
+            }
             return customerDetail;
         }
-        private OrderDetail BuildOrdersData(OrderDetails orderDetail, Guid orderId)
+        private List<OrderDetail> BuildOrdersData(List<OrderDetails> orderDetail)
         {
-            OrderDetail orderDetails = new OrderDetail();
-
-            orderDetails.OrderId = Guid.NewGuid().ToString();
-            orderDetails.CustomerEmail = orderDetail.CustomerEmail;
-            orderDetails.ProductName = orderDetail.ProductName;
-            orderDetails.ProductSeller = orderDetail.ProductSeller;
-            orderDetails.Location = orderDetail.Location;
-            orderDetails.PinCode = orderDetail.PinCode.ToString();
-            orderDetails.OrderPurchase = DateTime.Now;
+            List<OrderDetail> orderDetails = new List<OrderDetail>();
+            foreach (var orders in orderDetail)
+            {
+                OrderDetail details = new OrderDetail()
+                {
+                    OrderId = Guid.NewGuid().ToString(),
+                    CustomerEmail = orders.CustomerEmail,
+                    ProductName = orders.ProductName,
+                    ProductSeller = orders.ProductSeller,
+                    Location = orders.Location,
+                    PinCode = orders.PinCode.ToString(),
+                    OrderPurchase = DateTime.Now
+                };
+                orderDetails.Add(details);
+            }
             return orderDetails;
+
         }
     }
 }

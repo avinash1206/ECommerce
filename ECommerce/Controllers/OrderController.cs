@@ -29,7 +29,7 @@ namespace ECommerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public async Task<string> OrderDetails(OrderDetails orderDetails)
+        public async Task<string> OrderDetails(List<OrderDetails> orderDetails)
         {
             return await _customerService.CreateorderDetails(orderDetails);
         }

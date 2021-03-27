@@ -9,8 +9,6 @@ namespace ECommerce.Services.Models
    public class OrderDetails
     {
         [Required]
-        public Guid OrderId { get; set; }
-        [Required]
         public string CustomerEmail { get; set; }
         [Required]
         public string ProductName { get; set; }
@@ -22,9 +20,5 @@ namespace ECommerce.Services.Models
         public int PinCode { get; set; }
         [Required]
         public DateTime OrderPurchase { get; set; }
-
-        //[ForeignKey("CustomerEmail")]
-        //public virtual CustomerDetail CustomerDetail { get; set; }
-        //public virtual CustomerDetail CustomerDetail { get; set; }
     }
 }

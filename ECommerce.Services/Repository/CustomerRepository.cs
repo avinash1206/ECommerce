@@ -11,8 +11,8 @@ namespace ECommerce.Services.Repository
 {
     public interface ICustomerRepository
     {
-        Task<string> CreateCustomersData(CustomerDetail CustomerDetails);
-        Task<string> CreateOrdersData(OrderDetail OrderDetails);
+        Task<string> CreateCustomersData(List<CustomerDetail> CustomerDetails);
+        Task<string> CreateOrdersData(List<OrderDetail> OrderDetails);
         Task<List<OrderDetail>> GetOrderDeatails(string customerEmail);
     }
     public class CustomerRepository : ICustomerRepository
@@ -23,14 +23,14 @@ namespace ECommerce.Services.Repository
         {
             _transactionsContext = transactionsContext;
         }
-        public async Task<string> CreateCustomersData(CustomerDetail CustomerDetails)
+        public async Task<string> CreateCustomersData(List<CustomerDetail> CustomerDetails)
         {
             string status = "Failed";
             using (var transaction = _transactionsContext.Database.BeginTransaction())
             {
                 try
                 {
-                    _transactionsContext.CustomerDetails.Add(CustomerDetails);
+                    await _transactionsContext.CustomerDetails.AddRangeAsync(CustomerDetails);
                     await _transactionsContext.SaveChangesAsync();
 
                     await transaction.CommitAsync();
@@ -45,14 +45,14 @@ namespace ECommerce.Services.Repository
             return status;
         }
 
-        public async Task<string> CreateOrdersData(OrderDetail OrderDetails)
+        public async Task<string> CreateOrdersData(List<OrderDetail> OrderDetails)
         {
             string status = "Failed";
             using (var transaction = _transactionsContext.Database.BeginTransaction())
             {
                 try
                 {
-                    _transactionsContext.OrderDetails.Add(OrderDetails);
+                   await _transactionsContext.OrderDetails.AddRangeAsync(OrderDetails);
                     await _transactionsContext.SaveChangesAsync();
 
                     await transaction.CommitAsync();

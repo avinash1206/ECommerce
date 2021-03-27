@@ -2,6 +2,7 @@
 using ECommerce.Services.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace ECommerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public async Task<string> CustomerDetails(CustomerDetails customerDetails)
+        public async Task<string> CustomerDetails(List<CustomerDetails> customerDetails)
         {
             return await _customerService.CustomerDetails(customerDetails);
         }

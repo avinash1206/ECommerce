@@ -2,20 +2,24 @@
 using ECommerce.Services.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace ECommerce.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    public class CustomersController : Controller
+    public class OrderController : Controller
     {
         private readonly ICustomerService _customerService;
 
-        public CustomersController(ICustomerService customerService)
+        public OrderController(ICustomerService customerService)
         {
             _customerService = customerService;
         }
@@ -24,9 +28,9 @@ namespace ECommerce.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-        public async Task<string> CustomerDetails(CustomerDetails customerDetails)
+        public async Task<string> OrderDetails(OrderDetails orderDetails)
         {
-            return await _customerService.CustomerDetails(customerDetails);
+            return await _customerService.CreateorderDetails(orderDetails);
         }
     }
 }

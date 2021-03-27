@@ -1,4 +1,5 @@
-﻿using ECommerce.Services.Repository.EntityFramework;
+﻿using ECommerce.Services.Exceptions;
+using ECommerce.Services.Models;
 using ECommerce.Services.Repository.EntityFramework.Models;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,8 @@ namespace ECommerce.Services.Repository
 {
     public interface ICustomerRepository
     {
-        Task<string> CreatePaymentData(CustomerDetail CustomerDetails);
+        Task<string> CreateCustomersData(CustomerDetail CustomerDetails);
+        Task<string> CreateOrdersData(OrderDetail OrderDetails);
     }
     public class CustomerRepository : ICustomerRepository
     {
@@ -19,9 +21,9 @@ namespace ECommerce.Services.Repository
         {
             _transactionsContext = transactionsContext;
         }
-        public async Task<string> CreatePaymentData(CustomerDetail CustomerDetails)
+        public async Task<string> CreateCustomersData(CustomerDetail CustomerDetails)
         {
-            //bool status = false;
+            string status = "Failed";
             using (var transaction = _transactionsContext.Database.BeginTransaction())
             {
                 try
@@ -30,15 +32,37 @@ namespace ECommerce.Services.Repository
                     await _transactionsContext.SaveChangesAsync();
 
                     await transaction.CommitAsync();
-                    //status = true;
+                    status = "Sucess";
                 }
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
-                    //throw new PaymentException(ex.Message);
+                    throw new CustomersException(ex.Message);
                 }
             }
-            return "Sucess";
+            return status;
+        }
+
+        public async Task<string> CreateOrdersData(OrderDetail OrderDetails)
+        {
+            string status = "Failed";
+            using (var transaction = _transactionsContext.Database.BeginTransaction())
+            {
+                try
+                {
+                    _transactionsContext.OrderDetails.Add(OrderDetails);
+                    await _transactionsContext.SaveChangesAsync();
+
+                    await transaction.CommitAsync();
+                    status = "Sucess";
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    throw new CustomersException(ex.Message);
+                }
+            }
+            return status;
         }
     }
 }

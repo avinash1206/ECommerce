@@ -1,5 +1,6 @@
+using ECommerce.Services.Middleware;
 using ECommerce.Services.Repository;
-using ECommerce.Services.Repository.EntityFramework;
+using ECommerce.Services.Repository.EntityFramework.Models;
 using ECommerce.Services.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,6 +50,7 @@ namespace ECommerce
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Customers");
                 c.RoutePrefix = string.Empty;
             });
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseRouting();
 
             app.UseAuthorization();

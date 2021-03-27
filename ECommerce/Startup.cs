@@ -31,7 +31,7 @@ namespace ECommerce
         {
             services.AddDbContext<CustomerContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("Database")));
-            services.AddSwaggerGen();
+            //services.AddSwaggerGen();
             services.AddControllers();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<ICustomerService, CustomerService>();
@@ -44,12 +44,12 @@ namespace ECommerce
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Customers");
-                c.RoutePrefix = string.Empty;
-            });
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Customers");
+            //    c.RoutePrefix = string.Empty;
+            //});
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseRouting();
 

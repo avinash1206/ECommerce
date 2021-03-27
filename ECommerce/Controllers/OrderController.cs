@@ -37,7 +37,7 @@ namespace ECommerce.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<OrderDetail>), StatusCodes.Status200OK)]
         public async Task<List<OrderDetail>> GetOrderDeatails([FromQuery] string customerEmail)
         {
             return await _customerService.GetOrderDeatails(customerEmail);

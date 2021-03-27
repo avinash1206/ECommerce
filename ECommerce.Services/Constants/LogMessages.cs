@@ -11,5 +11,6 @@ namespace ECommerce.Services.Constants
         public const string InvalidEmail = "Please enter valid CustomerEmail";
         public const string RegistrationDate = "RegistrationDate should be greater than minimun";
         public const string InvalidPhoneNumber = "Please enter valid PhoneNumber";
+        public const string InvalidPinCode = "Please enter valid PinCode";
     }
 }

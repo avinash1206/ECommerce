@@ -19,7 +19,7 @@
     },
     "ECommerce": {
       "commandName": "Project",
-      "launchUrl": "index.html",
+      "launchUrl": "api/Customers",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

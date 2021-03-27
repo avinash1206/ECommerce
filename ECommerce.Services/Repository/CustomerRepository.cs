@@ -3,6 +3,7 @@ using ECommerce.Services.Models;
 using ECommerce.Services.Repository.EntityFramework.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace ECommerce.Services.Repository
     {
         Task<string> CreateCustomersData(CustomerDetail CustomerDetails);
         Task<string> CreateOrdersData(OrderDetail OrderDetails);
+        Task<List<OrderDetail>> GetOrderDeatails(string customerEmail);
     }
     public class CustomerRepository : ICustomerRepository
     {
@@ -63,6 +65,10 @@ namespace ECommerce.Services.Repository
                 }
             }
             return status;
+        }
+        public async Task<List<OrderDetail>> GetOrderDeatails(string customerEmail)
+        {
+            return _transactionsContext.OrderDetails.Where(x => x.CustomerEmail.ToLower() == customerEmail.ToLower()).ToList();
         }
     }
 }

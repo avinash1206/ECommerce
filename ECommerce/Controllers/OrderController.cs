@@ -1,4 +1,5 @@
 ﻿using ECommerce.Services.Models;
+using ECommerce.Services.Repository.EntityFramework.Models;
 using ECommerce.Services.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,15 @@ namespace ECommerce.Controllers
         public async Task<string> OrderDetails(OrderDetails orderDetails)
         {
             return await _customerService.CreateorderDetails(orderDetails);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        public async Task<List<OrderDetail>> GetOrderDeatails([FromQuery] string customerEmail)
+        {
+            return await _customerService.GetOrderDeatails(customerEmail);
         }
     }
 }

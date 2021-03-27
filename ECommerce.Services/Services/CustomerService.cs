@@ -12,6 +12,7 @@ namespace ECommerce.Services.Services
     {
         Task<string> CustomerDetails(CustomerDetails customerDetails);
         Task<string> CreateorderDetails(OrderDetails orderDetails);
+        Task<List<OrderDetail>> GetOrderDeatails(string customerEmail);
     }
     public class CustomerService : ICustomerService
     {
@@ -36,6 +37,10 @@ namespace ECommerce.Services.Services
             var customerData = BuildCustomerData(customerDetails, customerId);
             string sucess= await _customerRepository.CreateCustomersData(customerData);
             return sucess;
+        }
+        public async Task<List<OrderDetail>> GetOrderDeatails(string customerEmail)
+        {
+            return await _customerRepository.GetOrderDeatails(customerEmail);
         }
         private CustomerDetail BuildCustomerData(CustomerDetails customerDetails, Guid customerId)
         {

@@ -45,5 +45,30 @@ namespace ECommerce.Tests
             //Assert
             Assert.AreEqual(status, response);
         }
+
+        [TestMethod]
+        public async Task CustomersControllerShouldReturnfAILEDrESPONSE()
+        {
+            //Arrange
+            string status = "Failed";
+            List<CustomerDetails> customerDetails = new List<CustomerDetails>();
+            CustomerDetails customerDetails1 = new CustomerDetails()
+            {
+                Address = "Abc",
+                AlternatePhoneNumber = "1122334455",
+                CustomerEmail = "abc@gmail.com",//existing EmailId
+                CustomerName = "abc",
+                PhoneNumber = "1122331122",
+                RegestationDate = DateTime.Now
+            };
+            customerDetails.Add(customerDetails1);
+
+            //Act
+            _mockICustomerService.Setup(x => x.CustomerDetails(It.IsAny<List<CustomerDetails>>())).Returns(Task.FromResult(status));
+            var response = await _customersController.CustomerDetails(customerDetails);
+
+            //Assert
+            Assert.AreEqual(status, response);
+        }
     }
 }

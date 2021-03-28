@@ -16,12 +16,14 @@ namespace ECommerce.Tests.ServicesTests
     {
         private CustomerService _customerService;
         private Mock<ICustomerRepository> _mockICustomerRepository;
+
         [TestInitialize]
         public void TestInit()
         {
             _mockICustomerRepository = new Mock<ICustomerRepository>();
             _customerService = new CustomerService(_mockICustomerRepository.Object);
         }
+
         [TestMethod]
         public async Task CustomerDetailsShouldReturnSuccessResponse()
         {
